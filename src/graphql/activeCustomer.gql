@@ -1,0 +1,31 @@
+query activeCustomer {
+    activeCustomer {
+        id
+        title
+        firstName
+        lastName
+        phoneNumber
+        emailAddress
+        addresses {
+            fullName
+            company
+            streetLine1
+            streetLine2
+            city
+            province
+            postalCode
+            country {
+                name
+                code
+            }
+            phoneNumber
+            defaultBillingAddress
+            defaultShippingAddress
+        }
+        orders {
+            items {
+                id
+            }
+        }
+    }
+}
