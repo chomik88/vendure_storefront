@@ -12,8 +12,8 @@
         mdi-account
       </v-icon>
       <v-badge
-          :content="3"
-          :value="3"
+          :content="totalQuantity"
+          :value="totalQuantity"
           color="green"
           overlap
       >
@@ -36,27 +36,27 @@
             v-model="group"
             active-class="teal--text text--darken--2"
         >
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              <router-link to="/">
+          <router-link to="/">
+            <v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-home</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
                 Home
-              </router-link>
-            </v-list-item-title>
-          </v-list-item>
+              </v-list-item-title>
+            </v-list-item>
+          </router-link>
 
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-cart</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              <router-link to="/shop">
+          <router-link to="/shop">
+            <v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-cart</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
                 Shop
-              </router-link>
-            </v-list-item-title>
-          </v-list-item>
+              </v-list-item-title>
+            </v-list-item>
+          </router-link>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -64,13 +64,15 @@
 </template>
 
 <script>
-import {ref} from "@vue/composition-api";
+import {ref, watch, onMounted} from "@vue/composition-api";
 
 export default {
+  props: ['refresh'],
   setup(props, context) {
     const router = context.root.$router
     const drawer = ref(false);
     const group = ref(null);
+    const totalQuantity = ref('0');
 
     const toggleAppDrawer = () => {
       return drawer.value = true
@@ -86,9 +88,22 @@ export default {
     const goToCart = () => {
       router.push({path: '/cart'})
     }
+    const updateTotalQuantity = () => {
+      totalQuantity.value = localStorage.getItem('totalQuantity') || '0';
+    }
+
+    watch(() => props.refresh, (newValue, oldValue) => {
+      if (newValue) {
+        updateTotalQuantity()
+        context.emit('cartBadgeUpdated')
+      }
+    })
+    onMounted(updateTotalQuantity)
     return {
       drawer,
       group,
+      totalQuantity,
+      updateTotalQuantity,
       toggleAppDrawer,
       toggleAccountClick,
       goToCart

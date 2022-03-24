@@ -49,7 +49,8 @@
                       ></v-text-field>
                     </div>
                     <ApolloMutation :mutation="require('../graphql/addItemToOrder.gql')"
-                                    :variables="{productVariantId: currentVariant.id, quantity: Number(quantity)}">
+                                    :variables="{productVariantId: currentVariant.id, quantity: Number(quantity)}"
+                                    @done="updateCartTotalQuantity($event.data.addItemToOrder); onUpdateCartTotals()">
                       <template v-slot="{mutate}">
                         <v-btn
                             depressed
@@ -75,6 +76,7 @@
 
 <script>
 import {ref} from "@vue/composition-api";
+import {updateCartTotalQuantity} from "@/utils/updateCartTotalQuantity.js";
 
 export default {
   name: "ProductDetails",
@@ -103,6 +105,10 @@ export default {
     //   }
     // }))
 
+    const onUpdateCartTotals = () => {
+      context.emit('onUpdateCartTotals')
+    }
+
     return {
       id,
       currentVariant,
@@ -110,6 +116,8 @@ export default {
       quantity,
       setInitialSelectValue,
       setCurrentVariant,
+      updateCartTotalQuantity,
+      onUpdateCartTotals
     }
   }
 }

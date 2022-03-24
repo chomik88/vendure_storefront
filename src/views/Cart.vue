@@ -8,7 +8,7 @@
             <div v-if="loading">Loading...</div>
             <v-row v-else-if="data">
               <v-col>
-                <v-card class="pa-4">
+                <v-card class="pa-4" v-if="data.activeOrder.lines.length > 0">
                   <v-simple-table>
                     <template v-slot:default>
                       <thead>
@@ -35,7 +35,8 @@
                         </td>
                         <td class="pt-2 pb-2">
                           <ApolloMutation :mutation="require('../graphql/adjustOrderLine.gql')"
-                                          :variables="{orderLineId: item.id, quantity: Number(item.quantity)}">
+                                          :variables="{orderLineId: item.id, quantity: Number(item.quantity)}"
+                                          @done="updateCartTotalQuantity($event.data.adjustOrderLine); onUpdateCartTotals()">
                             <template v-slot="{mutate}">
                               <v-text-field
                                   label="Quantity"
@@ -59,6 +60,7 @@
                     </template>
                   </v-simple-table>
                 </v-card>
+                <p v-else>Your cart is empty</p>
                 <pre>
                   {{ data }}
                 </pre>
@@ -72,8 +74,19 @@
 </template>
 
 <script>
+import {updateCartTotalQuantity} from "@/utils/updateCartTotalQuantity.js";
+
 export default {
   name: "Cart",
+  setup(props, context) {
+    const onUpdateCartTotals = () => {
+      context.emit('onUpdateCartTotals')
+    }
+    return {
+      updateCartTotalQuantity,
+      onUpdateCartTotals
+    }
+  }
 }
 </script>
 

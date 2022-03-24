@@ -2,6 +2,8 @@ mutation adjustOrderLine($orderLineId: ID! $quantity: Int!){
     adjustOrderLine(orderLineId: $orderLineId quantity: $quantity){
         ... on Order {
             id
+            total
+            totalQuantity
         }
     }
 }
