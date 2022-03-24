@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 class="mb-3">Main page</h1>
+        <h1 class="mb-3">Shop</h1>
         <ProductList/>
       </v-col>
     </v-row>
@@ -10,14 +10,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ProductList from '@/components/ProductList.vue'
+import ProductList from "@/components/ProductList.vue";
 
-export default Vue.extend({
-  name: 'Home',
-
+export default {
+  name: "Shop",
   components: {
     ProductList,
   },
-})
+}
 </script>
+
+<style scoped>
+
+</style>

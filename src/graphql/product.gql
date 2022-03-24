@@ -1,0 +1,29 @@
+query product($id: ID) {
+    product(id: $id) {
+        id
+        name
+        description
+        assets {
+            id
+            name
+            type
+            source
+        }
+        variants {
+            price
+            name
+            id
+            productId
+            sku
+            stockLevel
+            currencyCode
+            priceWithTax
+            assets {
+                id
+                name
+                type
+                source
+            }
+        }
+    }
+}
