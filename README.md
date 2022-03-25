@@ -1,4 +1,12 @@
 # vendure-storefront
+This project is based on Vue.js storefront for Vendure Ecommerce.
+
+Vendure documentation:
+https://www.vendure.io/docs/getting-started/
+
+## GraphQL API config
+We need small config change to use Barer tokens to authorize user session:
+https://www.vendure.io/docs/storefront/managing-sessions/
 
 ## Project setup
 ```

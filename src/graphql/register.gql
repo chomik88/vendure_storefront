@@ -1,0 +1,7 @@
+mutation RegisterCustomerAccount($input: RegisterCustomerInput!){
+    registerCustomerAccount(input: $input){
+        ... on Success {
+            success
+        }
+    }
+}

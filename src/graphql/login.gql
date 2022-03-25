@@ -1,0 +1,12 @@
+mutation Login($username: String! $password: String! $rememberMe: Boolean!){
+    login(username: $username password: $password rememberMe: $rememberMe){
+        ... on CurrentUser {
+            id
+            identifier
+            channels {
+                token
+                permissions
+            }
+        }
+    }
+}
