@@ -1,20 +1,23 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import Vue from "vue";
+import Vue, {provide} from "vue";
 import App from "./App.vue";
 import router from "./router";
 import vuetify from './plugins/vuetify'
 import store from "./store";
-// import VueCompositionAPI from "@vue/composition-api";
 import { createProvider } from './vue-apollo'
+import {DefaultApolloClient} from "@vue/apollo-composable";
 
 Vue.config.productionTip = false;
-// Vue.use(VueCompositionAPI);
 
+const apolloProvider = createProvider();
 new Vue({
   router,
   store,
   vuetify,
-  apolloProvider: createProvider(),
+  apolloProvider,
+  setup(){
+    provide(DefaultApolloClient, apolloProvider.defaultClient)
+  },
   render: (h) => h(App),
 }).$mount("#app");
